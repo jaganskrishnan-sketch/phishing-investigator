@@ -33,10 +33,11 @@ settings = Settings()
 # Auto-discover credentials.json if GOOGLE_CLIENT_ID not explicitly passed in environment
 def auto_load_google_credentials():
     possible_paths = [
+        "/etc/secrets/credentials.json",
         os.path.join(os.path.dirname(__file__), "..", "credentials.json"),
         os.path.join(os.path.dirname(__file__), "..", "..", "credentials.json"),
         os.path.join(os.path.dirname(__file__), "credentials.json"),
-        r"C:\Users\Asus\.gemini\antigravity\scratch\phishing_investigation_platform\credentials.json"
+        "credentials.json",
     ]
     
     for path in possible_paths:
