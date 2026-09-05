@@ -12,7 +12,11 @@ import json
 import re
 import difflib
 import os
-from anthropic import Anthropic
+
+try:
+    from anthropic import Anthropic
+except ImportError:
+    Anthropic = None
 
 _client = None
 
@@ -20,12 +24,15 @@ _client = None
 def get_client():
     """Lazy init so the module can be imported/tested without an API key set."""
     global _client
-    if _client is None:
+    if _client is None and Anthropic is not None:
         api_key = os.environ.get("ANTHROPIC_API_KEY")
-        if api_key:
-            _client = Anthropic(api_key=api_key)
-        else:
-            _client = Anthropic()
+        try:
+            if api_key:
+                _client = Anthropic(api_key=api_key)
+            else:
+                _client = Anthropic()
+        except Exception:
+            _client = None
     return _client
 
 
