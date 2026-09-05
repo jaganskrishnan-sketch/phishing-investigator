@@ -7,14 +7,21 @@ Provides enterprise endpoints for:
   - Data sanitation & Zero-Retention mode
 """
 
+import os
+import sys
+import json
+import random
+from datetime import datetime
+
+# Guarantee local app package is discoverable on cloud servers
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+if APP_DIR not in sys.path:
+    sys.path.insert(0, APP_DIR)
+
 from fastapi import FastAPI, UploadFile, File, Form, Depends, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response, RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
-from datetime import datetime
-import json
-import os
-import random
 
 from config import settings
 from models import (
